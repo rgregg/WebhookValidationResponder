@@ -1,0 +1,61 @@
+﻿<!--  Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+        See LICENSE in the source repository root for complete license information. -->
+
+@{
+    ViewBag.Title = "Notification";
+}
+
+@section Scripts {
+  @Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js");
+  @Scripts.Render("~/signalr/hubs");
+
+  <script>
+    var connection = $.hubConnection();
+    var hub = connection.createHubProxy("NotificationHub");
+    // Notification when a webhook is received
+    hub.on("showNotification", function (messages) {
+      $.each(messages, function (index, value) {     // Iterate through the message collection
+        var message = value;                       // Get current message
+          var table = $("<table></table>");
+          var header = $("<th>Event</th>").appendTo(table);
+
+          for (prop in message) {                    // Iterate through message properties
+            var property = message[prop];
+            var row = $("<tr></tr>");
+
+            $("<td></td>").text(prop).appendTo(row);
+            $("<td></td>").text(property).appendTo(row);
+            table.append(row);
+          }
+          $("#message").append(table);
+          $("#message").append("<br />");
+      });
+    });
+    // Notification when a file is changed
+    hub.on("filesChanged", function (files) {
+      $.each(files, function (index, value) {
+        var table = $("<table></table>");
+        var header = $("<th>File Changes</th>").appendTo(table);
+
+        var row = $("<tr></tr>");
+        $("<td></td>").text(value).appendTo(row);
+        table.append(row);
+        $("#message").append(table);
+        $("#message").append("<br />");
+
+      });
+    });
+    connection.start();
+  </script>
+}
+<h2>Webhook Notifications</h2>
+<p>You'll get a near-real time notification when a signed in user adds, deletes, or modifies a file. The raw notifications display below.</p><br />
+<p><b>Subscription ID:</b> @ViewBag.SubscriptionId</p>
+
+<div id="message"></div>
+<div>
+  @using (Html.BeginForm("DeleteSubscription", "Subscription"))
+  {
+      <button type="submit">Delete subscription and sign out</button>
+  }
+</div>

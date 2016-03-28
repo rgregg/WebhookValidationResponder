@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>OneDrive Webhooks</h1>
+    <p class="lead">This sample provides an example of using OneDrive webhooks to receive real time notifications when content is changed.
+        To get started, sign in with your account below.</p>
+
+    @if (ViewBag.Message != null)
+    {
+        <p class="alert alert-warning">@ViewBag.Message</p>
+    }
+
+  @if (ViewBag.ShowSignInButtons)
+  {
+    <p>
+      <a class="btn btn-primary btn-lg" href="@Url.Action("SignInPersonal", "Account")">OneDrive Personal</a>
+      <a class="btn btn-primary btn-lg" href="@Url.Action("SignInBusiness", "Account")">OneDrive for Business</a>
+    </p>
+  }
+  else
+  {
+    <p>
+      <a class="btn btn-primary btn-lg" href="@Url.Action("SignOut", "Account")">Sign Out</a>
+    </p>
+  }
+</div>
+

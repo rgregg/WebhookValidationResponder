@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Webhook Subscriptions";
+}
+
+<h2>OneDrive Webhooks</h2>
+
+<div>
+  <p>You can subscribe to webhooks for a user's OneDrive and get notifications when changes are made to the drive.</p>
+  <p>This sample creates a subscription for the signed in user's drive. An example request looks like this:</p>
+
+  <p>See the <a href="https://dev.onedrive.com/README.htm">docs</a> for more information about creating webhooks for OneDrive.</p><br />
+  @using (Html.BeginForm("CreateSubscription", "Subscription"))
+            {
+      <button type="submit">Create subscription</button>
+  }
+</div>
